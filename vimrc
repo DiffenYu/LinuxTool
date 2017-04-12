@@ -22,6 +22,7 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'kien/ctrlp.vim'
 Plugin 'autoload_cscope.vim'
 Plugin 'majutsushi/tagbar'
+Plugin 'c.vim'
 "Plugin 'mbriggs/mark.vim'
 "Plugin 'ShowMarks'
 Plugin 'Conque-GDB'
@@ -46,6 +47,8 @@ Plugin 'thinca/vim-quickrun'
 
 "Switch between file *.c <-> *.h or file under curser, have limitation
 Plugin 'a.vim'
+
+Plugin 'octol/vim-cpp-enhanced-highlight'
 
 Plugin 'easymotion/vim-easymotion'
 
@@ -138,19 +141,19 @@ autocmd! bufwritepost .vimrc source ~/.vimrc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable syntax highlighting
 set t_Co=256
-syntax enable
 syntax on
+syntax enable
 set hlsearch
 
 hi IncSearch            ctermfg=Black           ctermbg=DarkGrey
 hi Search               ctermfg=Black           ctermbg=DarkGrey
 
-"colorscheme desert
+colorscheme desert
 "colorscheme murphy
 "set background=dark
 set nocompatible "disable some compatible with vi
 set completeopt=preview,menu
-colorscheme default
+"colorscheme default
 
 " Set extra options when running in GUI mode
 if has("gui_running")
@@ -260,7 +263,7 @@ endfunction
 "Open new tab pane add alt as prefix
 map <F4> :tabnew<CR>
 "Close current tab pane
-map <F7> :tabc<CR>
+map <F6> :tabc<CR>
 map <F2> :tabp<CR>
 map <F3> :tabn<CR>
 "Alt + num to switch tab pane
@@ -285,7 +288,7 @@ map <F3> :tabn<CR>
 "autocmd vimenter * NERDTree
 
 "map a specific key or shortcut to open NERDTree
-map <F10> :NERDTreeToggle<CR>
+map <F8> :NERDTreeToggle<CR>
 
 "close vim if the only window left open is a NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
@@ -427,7 +430,7 @@ let g:indent_guides_guide_size=1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Tagbar
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap <F9> :TagbarToggle<CR>
+nmap <F7> :TagbarToggle<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => ShowMarks setting
@@ -552,6 +555,12 @@ let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'javascript']
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "strip all trailing whitespace in the current file
 nnoremap <leader>w :%s/\s\+$//<cr>:let @/=''<CR>
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugin 'c.vim'
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:C_MapLeader = ','
 
 "use __printf __aloge + SPACE to quick insert format line
 iabbr __printf printf("[xxx][%s %s %d ]\n", __FUNCTION__, __FILE__, __LINE__);
