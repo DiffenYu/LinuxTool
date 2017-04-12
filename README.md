@@ -1,4 +1,4 @@
-# learngit
+# LinuxTool
 vimrc
 Replace the local ~/.vimrc with vimrc
 

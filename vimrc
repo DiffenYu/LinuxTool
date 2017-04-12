@@ -1,3 +1,10 @@
+" Install curl
+" On CentOS
+"    sudo yum install curl
+" Clone Vundle
+" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+"
+"
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -11,17 +18,55 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
+Plugin 'scrooloose/nerdcommenter'
 Plugin 'kien/ctrlp.vim'
 Plugin 'autoload_cscope.vim'
 Plugin 'majutsushi/tagbar'
-Plugin 'mbriggs/mark.vim'
-" Plugin 'ShowMarks'
+"Plugin 'mbriggs/mark.vim'
+"Plugin 'ShowMarks'
+Plugin 'Conque-GDB'
 Plugin 'kshenoy/vim-signature'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'tpope/vim-commentary'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'aklt/plantuml-syntax'
+Plugin 'ShowTrailingWhitespace'
+
+"Usage can refer to http://zuyunfei.com/2013/04/17/killer-plugin-of-vim-surround/"
+Plugin 'tpope/vim-surround'
+
+"Expended the '.' operation
+Plugin 'tpope/vim-repeat'
+
+Plugin 'raimondi/delimitmate'
+
+Plugin 'tpope/vim-markdown'
+
+Plugin 'thinca/vim-quickrun'
+
+"Switch between file *.c <-> *.h or file under curser, have limitation
+Plugin 'a.vim'
+
+Plugin 'easymotion/vim-easymotion'
+
+" highlight CSS3
+Plugin 'hail2u/vim-css3-syntax'
+"Plugin 'rstacruz/vim-ultisnips-css'
+
+" highlight HTML5
+Plugin 'othree/html5.vim'
+
+" Improved javaScript indentation and syntax support in Vim
+Plugin 'pangloss/vim-javascript'
+" lean & mean status/tabline for vim that's light as air
+Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline-themes' "https://github.com/vim-airline/vim-airline/wiki/Screenshots Usage: ':Airline distinguished ':Airline dark'
+
 "Plugin 'Valloric/YouCompleteMe'
 " " The following are examples of different formats supported.
 " " Keep Plugin commands between vundle#begin/end.
 " " plugin on GitHub repo
-" Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-fugitive'
 " " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
 " " Git plugin not hosted on GitHub
@@ -97,14 +142,15 @@ syntax enable
 syntax on
 set hlsearch
 
-hi IncSearch            ctermfg=Black           ctermbg=DarkGrey      
-hi Search               ctermfg=Black           ctermbg=DarkGrey 
+hi IncSearch            ctermfg=Black           ctermbg=DarkGrey
+hi Search               ctermfg=Black           ctermbg=DarkGrey
 
-colorscheme desert
+"colorscheme desert
 "colorscheme murphy
-set background=dark
+"set background=dark
 set nocompatible "disable some compatible with vi
 set completeopt=preview,menu
+colorscheme default
 
 " Set extra options when running in GUI mode
 if has("gui_running")
@@ -158,7 +204,7 @@ set si "Smart indent
 set wrap "Wrap lines
 
 "indent all
-map <F12> gg=G 
+map <F12> gg=G
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
@@ -168,13 +214,14 @@ map j gj
 map k gk
 
 
-" Smart way to move between windows
+" Smart way to move between windows(seems C-h is not well in mobaxterm)
 map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-h> <C-w>h
 map <C-l> <C-w>l
 
-set mouse=a
+
+"set mouse=a
 
 """""""""""""""""""""""""""""
 " => Status line
@@ -183,7 +230,18 @@ set mouse=a
 set laststatus=2
 
 " Format the status line
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \Line:\ %l
+"set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \Line:\ %l
+"set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \Line:\ %l
+
+""""""""""""""""""""""""""""
+" => Airline
+""""""""""""""""""""""""""""
+"let g:airline_theme='base16'
+"let g:airline_theme='badwolf'
+let g:airline_theme='laederon'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
@@ -199,17 +257,32 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => MutiTab
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"Open new tab pane
-map <F8> :tabnew<CR>
+"Open new tab pane add alt as prefix
+map <F4> :tabnew<CR>
 "Close current tab pane
 map <F7> :tabc<CR>
+map <F2> :tabp<CR>
+map <F3> :tabn<CR>
+"Alt + num to switch tab pane
+"can't work1gtgt
+""map <A-1> 1gt
+"map <A-2> 2gt
+"map <A-3> 3gt
+"map <A-4> 4gt
+"map <A-5> 5gt
+"map <A-6> 6gt
+"map <A-7> 7gt
+"map <A-8> 8gt
+"map <A-9> 9gt
+"map <A-0> :tablast<CR>
+"
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => NERDTree
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Open a NERDTree aumatically when vim starts up 
-"autocmd vimenter * NERDTree 
+" Open a NERDTree aumatically when vim starts up
+"autocmd vimenter * NERDTree
 
 "map a specific key or shortcut to open NERDTree
 map <F10> :NERDTreeToggle<CR>
@@ -262,58 +335,95 @@ let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 """"""""""""""""""""""""""""""
 " => cscope & ctags
 """"""""""""""""""""""""""""""
+set tags=tags;
+set autochdir
+
+nmap <C-_>w :!find ${PWD}/ -name "*.h" -o -name "*.c" -o -name "*.cpp" > ${PWD}/cscope.files; cscope -bkq -i ${PWD}/cscope.files; ctags -R;<CR><CR>
+
 " Add any database in current directory
+"Don't need to use code below due to the cscope.out will be automatically added by /etc/vimrc.
 if filereadable("cscope.out")
-    cs add cscope.out
+        "cs add cscope.out
+else
+        "cs add /home/media/workspace/dingfeng/mediasdk/cscope.out
+        "cs add /home/media/workspace/umd/Source/dxva/cscope.out
 endif
-map <F11> :!ctags -R . <CR>
-"map <F11> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
-set tags=/home/media/workspace/OneAndroid/OneAndroid/vendor/intel/hardware/PRIVATE/mediasdk/tags
+
 
 ":help cscope-suggestion
 
-nmap <C-_>s :cs find s <C-R>=expand("<cword>")<CR><CR>
-nmap <C-_>g :cs find g <C-R>=expand("<cword>")<CR><CR>
-nmap <C-_>c :cs find c <C-R>=expand("<cword>")<CR><CR>
-nmap <C-_>t :cs find t <C-R>=expand("<cword>")<CR><CR>
-nmap <C-_>e :cs find e <C-R>=expand("<cword>")<CR><CR>
-nmap <C-_>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
-nmap <C-_>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-nmap <C-_>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+nmap <C-_>s :cs find s <C-R>=expand("<cword>")<CR><CR> "query the symbol
+nmap <C-_>g :cs find g <C-R>=expand("<cword>")<CR><CR> "query definition
+nmap <C-_>c :cs find c <C-R>=expand("<cword>")<CR><CR> "query function call this funciton
+nmap <C-_>t :cs find t <C-R>=expand("<cword>")<CR><CR> "query character string
+nmap <C-_>e :cs find e <C-R>=expand("<cword>")<CR><CR> "query via egrep mode
+nmap <C-_>f :cs find f <C-R>=expand("<cfile>")<CR><CR> "query this file
+nmap <C-_>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR> "query files include this file
+nmap <C-_>d :cs find d <C-R>=expand("<cword>")<CR><CR> "query functions called by this function
 
 " Using 'CTRL-spacebar' then a search type makes the vim window
 " split horizontally, with search result displayed in
 " the new window.
 
-nmap <C-Space>s :scs find s <C-R>=expand("<cword>")<CR><CR>
-nmap <C-Space>g :scs find g <C-R>=expand("<cword>")<CR><CR>
-nmap <C-Space>c :scs find c <C-R>=expand("<cword>")<CR><CR>
-nmap <C-Space>t :scs find t <C-R>=expand("<cword>")<CR><CR>
-nmap <C-Space>e :scs find e <C-R>=expand("<cword>")<CR><CR>
-nmap <C-Space>f :scs find f <C-R>=expand("<cfile>")<CR><CR>
-nmap <C-Space>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-nmap <C-Space>d :scs find d <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-Space>s :scs find s <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-Space>g :scs find g <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-Space>c :scs find c <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-Space>t :scs find t <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-Space>e :scs find e <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-Space>f :scs find f <C-R>=expand("<cfile>")<CR><CR>
+"nmap <C-Space>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+"nmap <C-Space>d :scs find d <C-R>=expand("<cword>")<CR><CR>
 
 " Hitting CTRL-space *twice* before the search type does a vertical
 " split instead of a horizontal one
 
-nmap <C-Space><C-Space>s
-            \:vert scs find s <C-R>=expand("<cword>")<CR><CR>
-nmap <C-Space><C-Space>g
-            \:vert scs find g <C-R>=expand("<cword>")<CR><CR>
-nmap <C-Space><C-Space>c
-            \:vert scs find c <C-R>=expand("<cword>")<CR><CR>
-nmap <C-Space><C-Space>t
-            \:vert scs find t <C-R>=expand("<cword>")<CR><CR>
-nmap <C-Space><C-Space>e
-            \:vert scs find e <C-R>=expand("<cword>")<CR><CR>
-nmap <C-Space><C-Space>i
-            \:vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-nmap <C-Space><C-Space>d
-            \:vert scs find d <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-Space><C-Space>s
+            "\:vert scs find s <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-Space><C-Space>g
+            "\:vert scs find g <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-Space><C-Space>c
+            "\:vert scs find c <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-Space><C-Space>t
+            "\:vert scs find t <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-Space><C-Space>e
+            "\:vert scs find e <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-Space><C-Space>i
+            "\:vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+"nmap <C-Space><C-Space>d
+            "\:vert scs find d <C-R>=expand("<cword>")<CR><CR>
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Conque-GDB
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Read below file to see the usage.
+"vim ~/.vim/bundle/Conque-GDB/doc/conque_gdb.tx
+"Simple example
+":ConqueGdb ./ffmpeg_g
+"set args xxx
+"b main
+"r
+let g:ConqueGdb_SrcSplit = 'left'
+let g:ConqueGdb_SaveHistory = 1
+let g:ConqueGdb_Leader = ';'
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => fold
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"set foldmethod=indent
+set foldmethod=syntax
+set nofoldenable
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => vim-indent-guides
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" auto load begin with vim
+let g:indent_guides_enable_on_vim_startup=1
+" indent start from level 2
+let g:indent_guides_start_level=2
+" color block width
+let g:indent_guides_guide_size=1
+" quick key to open/close the indent guide
+:nmap <silent> <Leader>i <Plug>IndentGuidesToggle
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Tagbar
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -330,16 +440,120 @@ let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 let showmarks_ignore_type = "hqm"
 " Hilight lower & upper marks
 let showmarks_hlline_lower = 1
-let showmarks_hlline_upper = 1 
+let showmarks_hlline_upper = 1
 
 " For showmakrs plugin
 hi ShowMarksHLl ctermbg=Yellow   ctermfg=Black  guibg=#FFDB72    guifg=Black
-hi ShowMarksHLu ctermbg=Magenta  ctermfg=Black  guibg=#FFB3FF    guifg=Black 
+hi ShowMarksHLu ctermbg=Magenta  ctermfg=Black  guibg=#FFB3FF    guifg=Black
+"map  <Leader>mt   - open/close ShowMarks plugin
+"map  <Leader>mo   - enforce open ShowMarks plugin
+"map  <Leader>mh   - clean the mark of current line
+"map  <Leader>ma   - clean the marks of current buffer
+"map  <Leader>mm   - mark the current line use next usable mark name
 
-" <Leader>mt   - 打开/关闭ShowMarks插件
-" <Leader>mo   - 强制打开ShowMarks插件
-" <Leader>mh   - 清除当前行的标记
-" <Leader>ma   - 清除当前缓冲区中所有的标记
-" <Leader>mm   - 在当前行打一个标记，使用下一个可用的标记名
 
-iabbr __aloge ALOGE("[dingfeng][%s %d ]\n", __FUNCTION__, __LINE__);
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Quick run
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:quickrun_config = {
+            \   "_" : {
+            \       "outputter" : "message",
+            \   },
+            \}
+
+let g:quickrun_no_default_key_mappings = 1
+"Usage :Q<Enter>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" =>tpope/vim-surround'
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Normal mode
+"-----------
+"ds  - delete a surrounding
+"cs  - change a surrounding
+"ys  - add a surrounding
+"yS  - add a surrounding and place the surrounded text on a new line + indent it
+"yss - add a surrounding to the whole line
+"ySs - add a surrounding to the whole line, place it on a new line + indent it
+"ySS - same as ySs
+
+"Visual mode
+"-----------
+"s   - in visual mode, add a surrounding
+"S   - in visual mode, add a surrounding but place text on new line + indent it
+
+"Insert mode
+"-----------
+"<CTRL-s> - in insert mode, add a surrounding
+"<CTRL-s><CTRL-s> - in insert mode, add a new line + surrounding + indent
+"<CTRL-g>s - same as <CTRL-s>
+"<CTRL-g>S - same as <CTRL-s><CTRL-s>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" easymotion/vim-easymotion
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:EasyMotion_smartcase = 1
+"let g:EasyMotion_startofline = 0 " keep cursor colum when JK motion
+map <Leader><leader>h <Plug>(easymotion-linebackward)
+map <Leader><Leader>j <Plug>(easymotion-j)
+map <Leader><Leader>k <Plug>(easymotion-k)
+map <Leader><leader>l <Plug>(easymotion-lineforward)
+" repeat the last operation, similar with the repeat plugin
+map <Leader><leader>. <Plug>(easymotion-repeat)
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => a.vim (easy switch between src and head file
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"This is a mirror of http://www.vim.org/scripts/script.php?script_id=31
+
+"A few of quick commands to swtich between source files and header files quickly.
+
+":A switches to the header file corresponding to the current file being edited (or vise versa)
+":AS splits and switches
+":AV vertical splits and switches
+":AT new tab and switches
+":AN cycles through matches
+":IH switches to file under cursor
+":IHS splits and switches
+":IHV vertical splits and switches
+":IHT new tab and switches
+":IHN cycles through matches
+"<Leader>ih switches to file under cursor
+"<Leader>is switches to the alternate file of file under cursor (e.g. on  <foo.h> switches to foo.cpp)
+"<Leader>ihn cycles through matches
+
+"E.g. if you are editing foo.c and need to edit foo.h simply execute :A and you will be editting foo.h, to switch back to foo.c execute :A again.
+
+"Can be configured to support a variety of languages. Builtin support for C, C++ and ADA95
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => markdown releated
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'javascript']
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => airblade/vim-gitgutter
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"jump to next hunk(change): ]c
+"jump to previous hunk(change): [c
+"stage the hunk with <Leader>hs or
+"undo it with <Leader>hu
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => aklt/plantuml-syntax
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugin 'ShowTrailingWhitespace'
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"strip all trailing whitespace in the current file
+nnoremap <leader>w :%s/\s\+$//<cr>:let @/=''<CR>
+
+"use __printf __aloge + SPACE to quick insert format line
+iabbr __printf printf("[xxx][%s %s %d ]\n", __FUNCTION__, __FILE__, __LINE__);
+iabbr __aloge ALOGE("[xxx][%s %d ]\n", __FUNCTION__, __LINE__);
+
