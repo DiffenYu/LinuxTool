@@ -13,3 +13,7 @@ echo "Copy tmux.conf to ~/.tmux.conf"
 cp tmux.conf ~/.tmux.conf
 echo "Copy gitconfig to ~/.gitconfig"
 cp gitconfig ~/.gitconfig
+
+echo "Copy bashrc to ~/.bashrc"
+cp -i bashrc ~/.bashrc
+source ~/.bashrc
