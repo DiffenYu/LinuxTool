@@ -17,3 +17,6 @@ cp gitconfig ~/.gitconfig
 echo "Copy bashrc to ~/.bashrc"
 cp -i bashrc ~/.bashrc
 source ~/.bashrc
+
+sudo yum install -y ctags automake gcc gcc-c++ kernel-devel python-devel python3-devel git
+vim -c "PluginInstall" -c "q" -c "q"
