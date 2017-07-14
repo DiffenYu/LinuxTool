@@ -51,6 +51,7 @@ Download source code from http://releases.llvm.org/download.html
     cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release DCMAKE_INSTALL_PREFIX=/usr/local ../llvm-400
     make -j8
     sudo make install
+```    
 
 Compile the ycm_core
 ```bash
