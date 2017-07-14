@@ -17,12 +17,13 @@ call vundle#begin()
 " " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
+"Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'kien/ctrlp.vim'
 Plugin 'autoload_cscope.vim'
 Plugin 'majutsushi/tagbar'
-Plugin 'c.vim'
+Plugin 'DoxygenToolkit.vim'
+"Plugin 'c.vim'
 "Plugin 'mbriggs/mark.vim'
 "Plugin 'ShowMarks'
 Plugin 'Conque-GDB'
@@ -31,7 +32,8 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-commentary'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'aklt/plantuml-syntax'
-Plugin 'ShowTrailingWhitespace'
+"Plugin 'ShowTrailingWhitespace'
+Plugin 'junegunn/fzf'
 
 "Usage can refer to http://zuyunfei.com/2013/04/17/killer-plugin-of-vim-surround/"
 Plugin 'tpope/vim-surround'
@@ -42,15 +44,23 @@ Plugin 'tpope/vim-repeat'
 Plugin 'raimondi/delimitmate'
 
 Plugin 'tpope/vim-markdown'
+Plugin 'terryma/vim-multiple-cursors'
 
-Plugin 'thinca/vim-quickrun'
+Plugin 'chiel92/vim-autoformat'
+
+"Plugin 'thinca/vim-quickrun'
 
 "Switch between file *.c <-> *.h or file under curser, have limitation
-Plugin 'a.vim'
+"Plugin 'a.vim'
 
 Plugin 'octol/vim-cpp-enhanced-highlight'
 
 Plugin 'easymotion/vim-easymotion'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'sirver/ultisnips'
+Plugin 'honza/vim-snippets'
+
+Plugin 'klen/python-mode'
 
 " highlight CSS3
 Plugin 'hail2u/vim-css3-syntax'
@@ -209,22 +219,6 @@ set wrap "Wrap lines
 "indent all
 map <F12> gg=G
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Moving around, tabs, windows and buffers
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Treat long lines as break lines (useful when moving around in them)
-map j gj
-map k gk
-
-
-" Smart way to move between windows(seems C-h is not well in mobaxterm)
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-h> <C-w>h
-map <C-l> <C-w>l
-
-
-"set mouse=a
 
 """""""""""""""""""""""""""""
 " => Status line
@@ -327,13 +321,14 @@ let g:ctrlp_cmd = 'CtrlP'
 
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_global_ycm_extra_conf = '/home/media/ycm_extra_conf.py'
+let g:ycm_show_diagnostics_ui = 0
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Syntastic
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:syntastic_cpp_compiler = 'clang++'
-let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
+"let g:syntastic_cpp_compiler = 'clang++'
+"let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 
 """"""""""""""""""""""""""""""
 " => cscope & ctags
@@ -355,13 +350,15 @@ endif
 
 ":help cscope-suggestion
 
+set cspc=1
+"set cscopequickfix=s-,c-,d-,i-,t-,e-
 nmap <C-_>s :cs find s <C-R>=expand("<cword>")<CR><CR> "query the symbol
 nmap <C-_>g :cs find g <C-R>=expand("<cword>")<CR><CR> "query definition
 nmap <C-_>c :cs find c <C-R>=expand("<cword>")<CR><CR> "query function call this funciton
 nmap <C-_>t :cs find t <C-R>=expand("<cword>")<CR><CR> "query character string
 nmap <C-_>e :cs find e <C-R>=expand("<cword>")<CR><CR> "query via egrep mode
 nmap <C-_>f :cs find f <C-R>=expand("<cfile>")<CR><CR> "query this file
-nmap <C-_>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR> "query files include this file
+nmap <C-_>i :cs find i <C-R>=expand("<cfile>")<CR>$<CR> "query files include this file
 nmap <C-_>d :cs find d <C-R>=expand("<cword>")<CR><CR> "query functions called by this function
 
 " Using 'CTRL-spacebar' then a search type makes the vim window
@@ -405,7 +402,9 @@ nmap <C-_>d :cs find d <C-R>=expand("<cword>")<CR><CR> "query functions called b
 "set args xxx
 "b main
 "r
-let g:ConqueGdb_SrcSplit = 'left'
+"let g:ConqueGdb_SrcSplit = 'left'
+"let g:ConqueGdb_SrcSplit = 'below'
+let g:ConqueGdb_SrcSplit = 'above'
 let g:ConqueGdb_SaveHistory = 1
 let g:ConqueGdb_Leader = ';'
 
@@ -560,9 +559,105 @@ nnoremap <leader>w :%s/\s\+$//<cr>:let @/=''<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugin 'c.vim'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:C_MapLeader = ','
+"let g:C_MapLeader = ','
+let g:C_MapLeader = '\'
 
 "use __printf __aloge + SPACE to quick insert format line
-iabbr __printf printf("[xxx][%s %s %d ]\n", __FUNCTION__, __FILE__, __LINE__);
+iabbr __printf printf("[dingfeng][%s %s %d ]\n", __FUNCTION__, __FILE__, __LINE__);
 iabbr __aloge ALOGE("[xxx][%s %d ]\n", __FUNCTION__, __LINE__);
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugin 'Valloric/YouCompleteMe'
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set completeopt=longest,menu
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
+let g:ycm_collect_identifiers_from_tags_files=1
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_error_symbol = '>>'
+let g:ycm_warning_symbol = '>*'
+let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_complete_in_comments = 1
+let g:ycm_complete_in_strings = 1
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Moving around, tabs, windows and buffers
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Treat long lines as break lines (useful when moving around in them)
+map j gj
+map k gk
+
+
+" Smart way to move between windows(seems C-h is not well in mobaxterm)
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-h> <C-w>h
+map <C-l> <C-w>l
+
+set mouse=a
+nnoremap <leader>es :set mouse=a <CR>
+nnoremap <leader>ds :set mouse=  <CR>
+set selection=exclusive
+set selectmode=mouse,key
+set scrolloff=3
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => quickfix
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <leader>n :cn<CR>
+map <leader>b :cp<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => chiel92/vim-autoformat
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"func FormatCode(style)
+    "let firstline=line(".")
+    "let lastline=line(".")
+    "" Visual mode
+    "if exists(a:firstline)
+        "firstline = a:firstline
+        "lastline = a:lastline
+    "endif
+    "let g:formatdef_clangformat = "'clang-format --lines='.a:firstline.':'.a:lastline.' --assume-filename='.bufname('%').' -style=" . a:style . "'"
+    "let formatcommand = ":" . firstline . "," . lastline . "Autoformat"
+    "exec formatcommand
+"endfunc
+"clang-format for formating cpp code
+nnoremap <leader>cf :call FormatCode("Chromium")<cr>
+nnoremap <leader>lf :call FormatCode("LLVM")<cr>
+vnoremap <leader>cf :call FormatCode("Chromium")<CR>
+vnoremap <leader>lf :call FormatCode("LLVM")<cr>
+let g:autoformat_verbosemode = 1
+
+"if &diff
+    "colorscheme default
+    ""colorscheme murphy
+"endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugin 'DoxygenToolkit.vim'
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:DoxygenToolkit_briefTag_funcName = "no"
+
+"for C++ style, change the '@' to '\'
+let g:DoxygenToolkit_commentType = "C++"
+let g:DoxygenToolkit_briefTag_pre =   "\\brief    "
+let g:DoxygenToolkit_detailsTag_pre = "\\details  "
+let g:DoxygenToolkit_templateParamTag_pre = "\\tparam "
+let g:DoxygenToolkit_paramTag_pre =   "\\param    "
+let g:DoxygenToolkit_returnTag =      "\\return   "
+let g:DoxygenToolkit_throwTag_pre = "\\throw " " @exception is also valid
+let g:DoxygenToolkit_fileTag = "\\file "
+let g:DoxygenToolkit_dateTag = "\\date "
+let g:DoxygenToolkit_authorTag = "\\author "
+let g:DoxygenToolkit_versionTag = "\\version "
+let g:DoxygenToolkit_blockTag = "\\name "
+let g:DoxygenToolkit_classTag = "\\class "
+"let g:DoxygenToolkit_authorName = "xxx@gmail.com"
+let g:doxygen_enhanced_color = 1
+"let g:load_doxygen_syntax = 1
+
+"For mods project
+let g:DoxygenToolkit_startCommentTag = "//! "
+let g:DoxygenToolkit_interCommentTag = "//! "
