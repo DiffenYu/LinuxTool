@@ -60,3 +60,11 @@ Compile the ycm_core
     cd ycm_build
     cmake -G ""
 ```
+
+
+# How to build LLVM 5.0 on CentOS 
+1. Download source file to specific folders refer to the section Git Mirror on the link http://llvm.org/docs/GettingStarted.html
+   If you want to add clang-tool, you need download the repo refer to http://clang.llvm.org/docs/ClangTools.html
+2. Configure and build the LLVM refer to http://llvm.org/docs/GettingStartted.html
+
+
