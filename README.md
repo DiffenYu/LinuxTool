@@ -82,6 +82,7 @@ cp compile_commands.json ..
 clang-rename.py: https://reviews.llvm.org/diffusion/L/browse/clang-tools-extra/trunk/clang-rename/tool/clang-rename.py;282388?
 
 # How to install vim8.0 On CentOS
+```bash
 sudo yum groupinstall 'Development tools' -y
 sudo yum install ncurses ncurses-devel wget git -y
 
@@ -90,6 +91,7 @@ wget ftp://ftp.vim.org/pub/vim/unix/vim-8.0.tar.bz2
 tar -xjf vim-8.0.tar.bz2
 cd vim80
 sudo make -j8 && sudo make install
+```
 
 # How to use bear to generate database
 
