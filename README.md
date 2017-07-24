@@ -64,7 +64,33 @@ Compile the ycm_core
 
 # How to build LLVM 5.0 on CentOS 
 1. Download source file to specific folders refer to the section Git Mirror on the link http://llvm.org/docs/GettingStarted.html
-   If you want to add clang-tool, you need download the repo refer to http://clang.llvm.org/docs/ClangTools.html
+   If you want to add clang-tool(e.g. clang-tidy), you need download the repo refer to http://clang.llvm.org/docs/ClangTools.html
 2. Configure and build the LLVM refer to http://llvm.org/docs/GettingStartted.html
+
+# How to use clang-rename
+Use OpenCV for example.
+Download OpenCV source file 
+```bash
+git clone https://github.com/opencv/opencv.git
+cd opencv
+mkdir build
+cd build
+cmake -D CMAKE_EXPORT_COMPILE_COMMANDS=ON -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local -D BUILD_DOCS=ON -D BUILD_EXAMPLES=ON -D ENABLE_PRECOMPILED_HEADERS=OFF ..
+cp compile_commands.json ..
+```
+
+clang-rename.py: https://reviews.llvm.org/diffusion/L/browse/clang-tools-extra/trunk/clang-rename/tool/clang-rename.py;282388?
+
+# How to install vim8.0 On CentOS
+sudo yum groupinstall 'Development tools' -y
+sudo yum install ncurses ncurses-devel wget git -y
+
+cd ~/Downloads
+wget ftp://ftp.vim.org/pub/vim/unix/vim-8.0.tar.bz2
+tar -xjf vim-8.0.tar.bz2
+cd vim80
+sudo make -j8 && sudo make install
+
+# How to use bear to generate database
 
 
