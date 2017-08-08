@@ -96,4 +96,21 @@ sudo make -j8 && sudo make install
 
 # How to use bear to generate database
 
+# How to git multi pull
+First install pip refer to https://www.liquidweb.com/kb/how-to-install-pip-on-centos-7/
+Then
+```bash
+sudo yum install python-pip -y
+su
+pip install git-plus
+```
+Usage: git multi xx
+
+# How to easily see the git commit history in terminal
+Use tig tool, On CentOS
+```bash
+sudo yum install tig
+```
+Configuration refer to 
+https://github.com/jonas/tig/blob/master/contrib/vim.tigrc
 
