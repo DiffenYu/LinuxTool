@@ -50,7 +50,7 @@ export PS1="\[$green\]\u@\h:\w\[$magenta\]\$git_branch\[$green\]\\$\[$normal_col
 
 gf()
 {
-    /bin/grep $1 . -rni --color=auto
+    /bin/grep $1 . -rni --color=auto --exclude="tags" --exclude="*.out"
 }
 
 fd()
