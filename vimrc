@@ -407,6 +407,8 @@ nmap <C-_>d :cs find d <C-R>=expand("<cword>")<CR><CR> "query functions called b
 let g:ConqueGdb_SrcSplit = 'above'
 let g:ConqueGdb_SaveHistory = 1
 let g:ConqueGdb_Leader = ';'
+nnoremap <silent> <leader>Y :ConqueGdbCommand y<CR>
+nnoremap <silent> <leader>N :ConqueGdbCommand n<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => fold
