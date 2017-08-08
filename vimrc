@@ -282,7 +282,7 @@ map <F3> :tabn<CR>
 "autocmd vimenter * NERDTree
 
 "map a specific key or shortcut to open NERDTree
-map <F8> :NERDTreeToggle<CR>
+map <F7> :NERDTreeToggle<CR>
 
 "close vim if the only window left open is a NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
@@ -431,7 +431,7 @@ let g:indent_guides_guide_size=1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Tagbar
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap <F7> :TagbarToggle<CR>
+nmap <F8> :TagbarToggle<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => ShowMarks setting
