@@ -21,6 +21,7 @@ scope()
     /usr/bin/ctags -R
 }
 export CSCOPE_EDITOR=vim
+alias rmscope="rm cscope.files cscope.in.out cscope.po.out cscope.out tags"
 
 function find_git_branch {
 local dir=. head
