@@ -402,6 +402,10 @@ nmap <C-_>d :cs find d <C-R>=expand("<cword>")<CR><CR> "query functions called b
 "set args xxx
 "b main
 "r
+"Also you can write a script to run the Conque-GDB more convenient.
+" vim -c "ConqueGdb --args ./program [arguments list]"
+"You can save breakpoints to file which you can use to run next time.
+" save breakpoints gdb.cfg
 "let g:ConqueGdb_SrcSplit = 'left'
 "let g:ConqueGdb_SrcSplit = 'below'
 let g:ConqueGdb_SrcSplit = 'above'
