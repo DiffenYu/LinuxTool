@@ -1,4 +1,8 @@
 # LinuxTool
+
+TODO
+1. Add tmux mouse support for Mac OS.
+
 vimrc
 Replace the local ~/.vimrc with vimrc
 
