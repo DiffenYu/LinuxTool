@@ -14,6 +14,9 @@ cp tmux.conf ~/.tmux.conf
 echo "Copy gitconfig to ~/.gitconfig"
 cp gitconfig ~/.gitconfig
 
+cp tigrc.vim ~/.tigrc.vim
+cp tigrc ~/.tigrc
+
 echo "Copy bashrc to ~/.bashrc"
 cp -i bashrc ~/.bashrc
 source ~/.bashrc
@@ -25,7 +28,7 @@ elif [ ${OS} == "Linux" ]; then
     source /etc/os-release
     case $ID in
         debian|ubuntu|devuan)
-            sudo get install tmux
+            sudo get install tmux tig
             ;;
         centos|fedora|rhel)
             yumdnf="yum"
@@ -33,7 +36,7 @@ elif [ ${OS} == "Linux" ]; then
             then
                 yumdnf="dnf"
             fi
-            sudo $yumdnf install -y ctags automake gcc gcc-c++ kernel-devel python-devel python3-devel git tmux
+            sudo $yumdnf install -y ctags automake gcc gcc-c++ kernel-devel python-devel python3-devel git tmux tig
             ;;
         *)
             exit 1
