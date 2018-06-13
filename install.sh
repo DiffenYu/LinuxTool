@@ -15,7 +15,8 @@ echo "Copy gitconfig to ~/.gitconfig"
 cp gitconfig ~/.gitconfig
 
 cp tigrc.vim ~/.tigrc.vim
-cp tigrc ~/.tigrc
+echo "source ~/.tigrc.vim" >> ~/.tigrc
+
 
 echo "Copy bashrc to ~/.bashrc"
 cp -i bashrc ~/.bashrc
