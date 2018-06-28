@@ -1,4 +1,5 @@
 #!/bin/bash
+# refer to https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source
 #git clone https://github.com/vim/vim.git
 wget ftp://ftp.vim.org/pub/vim/unix/vim-8.0.tar.bz2
 tar -xjf vim-8.0.tar.bz2
@@ -18,3 +19,8 @@ cd vim80
     --enable-cscope \
     --prefix=/usr/local
 make -j8 && sudo make install
+
+sudo update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1
+sudo update-alternatives --set editor /usr/local/bin/vim
+sudo update-alternatives --install /usr/bin/vi vi /usr/local/bin/vim 1
+sudo update-alternatives --set vi /usr/local/bin/vim
