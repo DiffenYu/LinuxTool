@@ -14,9 +14,8 @@ cp tmux.conf ~/.tmux.conf
 echo "Copy gitconfig to ~/.gitconfig"
 cp gitconfig ~/.gitconfig
 
-cp tigrc.vim ~/.tigrc.vim
-echo "source ~/.tigrc.vim" >> ~/.tigrc
-
+cp -rf tigrc.vim ~/.tigrc.vim
+cp -rf tigrc ~/.tigrc
 
 echo "Copy bashrc to ~/.bashrc"
 cp -i bashrc ~/.bashrc
