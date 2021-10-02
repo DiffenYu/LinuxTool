@@ -1,0 +1,65 @@
+From a3d5a5f0173f65b2177b2832db27fb162de0f4ff Mon Sep 17 00:00:00 2001
+From: "Yu, Dingfeng" <dingfeng.yu@intel.com>
+Date: Tue, 3 Nov 2020 10:45:45 +0800
+Subject: [PATCH] Add custom sh snippets
+
+Signed-off-by: Yu, Dingfeng <dingfeng.yu@intel.com>
+---
+ snippets/sh.snippets | 43 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
+
+diff --git a/snippets/sh.snippets b/snippets/sh.snippets
+index 35afa30..811534f 100644
+--- a/snippets/sh.snippets
++++ b/snippets/sh.snippets
+@@ -1,4 +1,47 @@
+ # Shebang. Executing bash via /usr/bin/env makes scripts more portable.
++
++snippet dingfeng
++	#!/usr/bin/env bash
++	# user: Yu, Dingfeng
++	# email: dingfeng.yu@intel.com
++
++	function err() {
++	    echo -e "[$(date +'%Y-%m-%dT%H:%M:%S%z')]\033[31m ERROR\033[0m: $@" >&2
++	}
++
++	function msg() {
++	    echo -e "[$(date +'%Y-%m-%dT%H:%M:%S%z')]\033[37m INFO\033[0m: $@"
++	}
++
++	function usage() {
++	    local self=$(basename \$0)
++	    cat <<EOF
++	    Usage: $self [-a <aoption>] [-v <ver>] [-r] [-n] [-h]
++
++	    -a <aopt>: detail
++	    -n:        dry run, print out information only
++	    -h:        print the usage message
++	EOF
++	}
++
++	while getopts ":a:m:v:hnr" opt
++	do
++	    case $opt in
++	      a ) ADDRESS=$OPTARG;;
++	      r ) RESET=y;;
++	      n ) DRY_RUN=y;;
++	      h ) usage && exit;;
++	      * ) usage && exit 1;;
++	    esac
++	done
++	shift $((OPTIND-1))
++
++	function main() {
++	     msg "main"
++	}
++
++	main "$@"
++
+ snippet #!
+ 	#!/usr/bin/env sh
+ 
+-- 
+2.17.1
+
