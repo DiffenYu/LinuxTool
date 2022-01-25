@@ -16,7 +16,7 @@ alias vb="vim ~/.bashrc"
 scope()
 {
     echo $PWD
-    /usr/bin/find $PWD -name "*.h" -o -name "*.c" -o -name "*.cpp" > cscope.files
+    /usr/bin/find -L $PWD -name "*.h" -o -name "*.c" -o -name "*.cpp" > cscope.files
     /usr/bin/cscope -bkq -i cscope.files
     /usr/bin/ctags -R
 }
@@ -58,3 +58,20 @@ fd()
 {
     /usr/bin/find . -name $1
 }
+
+start_ssh_agent()
+{
+if [ -z "$SSH_AUTH_SOCK" ] ; then
+  eval `ssh-agent -s`
+  ssh-add ~/.ssh/media_key
+fi
+}
+
+stop_ssh_agent()
+{
+if [ -n "$SSH_AUTH_SOCK" ] ; then
+  eval `/usr/bin/ssh-agent -k`
+fi
+}
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
