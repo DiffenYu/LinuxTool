@@ -86,6 +86,7 @@ source $ZSH/oh-my-zsh.sh
 bindkey ',' autosuggest-accept
 
 export TERM=xterm-256color
+export FZF_DEFAULT_COMMAND='fd --type f'
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
