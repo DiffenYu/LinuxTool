@@ -21,12 +21,17 @@ install_zsh_for_centos_76()
     sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
 
+install_zsh_for_macos()
+{
+    sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+}
+
 
 main()
 {
     OS=`uname -s`
     if [ ${OS} == "Darwin" ]; then
-        brew install tmux
+        install_zsh_for_macos
     elif [ ${OS} == "Linux" ]; then
         source /etc/os-release
         case $ID in

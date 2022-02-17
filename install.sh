@@ -5,7 +5,7 @@ install_prequisite()
 {
     OS=`uname -s`
     if [ ${OS} == "Darwin" ]; then 
-        brew install tmux
+        brew install tmux tig wget autojump
     elif [ ${OS} == "Linux" ]; then
         source /etc/os-release
         case $ID in
