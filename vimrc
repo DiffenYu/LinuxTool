@@ -26,7 +26,7 @@ Plugin 'DoxygenToolkit.vim'
 "Plugin 'c.vim'
 "Plugin 'mbriggs/mark.vim'
 "Plugin 'ShowMarks'
-Plugin 'Conque-GDB'
+"Plugin 'Conque-GDB'
 Plugin 'kshenoy/vim-signature'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-commentary'
@@ -34,6 +34,7 @@ Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'aklt/plantuml-syntax'
 "Plugin 'ShowTrailingWhitespace'
 Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
 
 "Usage can refer to http://zuyunfei.com/2013/04/17/killer-plugin-of-vim-surround/"
 Plugin 'tpope/vim-surround'
@@ -57,7 +58,7 @@ Plugin 'octol/vim-cpp-enhanced-highlight'
 
 Plugin 'easymotion/vim-easymotion'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'sirver/ultisnips'
+"Plugin 'sirver/ultisnips'
 Plugin 'honza/vim-snippets'
 
 Plugin 'klen/python-mode'
@@ -218,6 +219,8 @@ set wrap "Wrap lines
 
 "indent all
 map <F12> gg=G
+
+set backspace=indent,eol,start
 
 
 """""""""""""""""""""""""""""
@@ -668,3 +671,9 @@ let g:doxygen_enhanced_color = 1
 "For mods project
 let g:DoxygenToolkit_startCommentTag = "//! "
 let g:DoxygenToolkit_interCommentTag = "//! "
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugin 'junegunn/fzf'
+" => Plugin 'junegunn/fzf.vim'
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <silent> <C-f> :Files<CR>
