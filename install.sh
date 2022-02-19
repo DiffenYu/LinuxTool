@@ -5,7 +5,7 @@ install_prequisite()
 {
     OS=`uname -s`
     if [ ${OS} == "Darwin" ]; then 
-        brew install tmux tig wget autojump
+        brew install tmux tig wget autojump universal-ctags
     elif [ ${OS} == "Linux" ]; then
         source /etc/os-release
         case $ID in
