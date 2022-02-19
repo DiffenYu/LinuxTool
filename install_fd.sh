@@ -4,7 +4,9 @@
 install_fd()
 {
     OS=`uname -s`
-    if [ ${OS} == "Linux" ]; then
+    if [ ${OS} == "Darwin" ]; then
+        brew install fd
+    elif [ ${OS} == "Linux" ]; then
         source /etc/os-release
         case $ID in
             debian|ubuntu|devuan)
