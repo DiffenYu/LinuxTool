@@ -19,9 +19,9 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 "Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'kien/ctrlp.vim'
+"Plugin 'kien/ctrlp.vim'
 Plugin 'autoload_cscope.vim'
-Plugin 'majutsushi/tagbar'
+"Plugin 'majutsushi/tagbar'
 Plugin 'DoxygenToolkit.vim'
 "Plugin 'c.vim'
 "Plugin 'mbriggs/mark.vim'
@@ -96,6 +96,7 @@ Plugin 'tpope/vim-fugitive'
 " " All of your Plugins must be added before the following line
 
 Plugin 'ludovicchabant/vim-gutentags'
+Plugin 'yggdroot/leaderf'
 
 call vundle#end()            " required
 " " To ignore plugin indent changes, instead use:
@@ -317,8 +318,8 @@ let g:NERDTreeDirArrows = 1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => ctrlp
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
+"let g:ctrlp_map = '<c-p>'
+"let g:ctrlp_cmd = 'CtrlP'
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -442,7 +443,7 @@ let g:indent_guides_guide_size=1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Tagbar
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap <F8> :TagbarToggle<CR>
+"nmap <F8> :TagbarToggle<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => ShowMarks setting
@@ -679,7 +680,7 @@ let g:DoxygenToolkit_interCommentTag = "//! "
 " => Plugin 'junegunn/fzf'
 " => Plugin 'junegunn/fzf.vim'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <silent> <C-f> :Files<CR>
+"nnoremap <silent> <C-f> :Files<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugin 'ludovicchabant/vim-gutentags'
@@ -697,3 +698,26 @@ let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
 if !isdirectory(s:vim_tags)
    silent! call mkdir(s:vim_tags, 'p')
 endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugin 'yggdroot/leaderf'
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:Lf_ShortcutF = '<c-p>'
+let g:Lf_ShortcutB = '<c-l>'
+noremap <leader>f :LeaderfSelf<cr>
+noremap <leader>fm :LeaderfMru<cr>
+noremap <leader>ff :LeaderfFunction<cr>
+noremap <leader>fb :LeaderfBufTagAll<cr>
+noremap <leader>ft :LeaderfBufTag<cr>
+noremap <leader>fl :LeaderfLine<cr>
+noremap <leader>fw :LeaderfWindow<cr>
+let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
+
+let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
+let g:Lf_WorkingDirectoryMode = 'Ac'
+let g:Lf_WindowHeight = 0.30
+let g:Lf_CacheDirectory = expand('~/.vim/cache')
+let g:Lf_ShowRelativePath = 0
+let g:Lf_HideHelp = 1
+let g:Lf_StlColorscheme = 'powerline'
+let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
