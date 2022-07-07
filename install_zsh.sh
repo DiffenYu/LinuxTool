@@ -23,6 +23,7 @@ install_zsh_for_centos_76()
 
 install_zsh_for_macos()
 {
+    brew install autojump
     sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
 
