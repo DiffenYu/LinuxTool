@@ -2,6 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
+export ZSH=/home/dingfeng/.oh-my-zsh
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -9,7 +10,8 @@
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 #ZSH_THEME="robbyrussell"
 #ZSH_THEME="ys"
-ZSH_THEME="bira"
+#ZSH_THEME="bira"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -83,7 +85,7 @@ zstyle :omz:plugins:ssh-agent identities media_key
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-bindkey ',' autosuggest-accept
+bindkey ';' autosuggest-accept
 
 export TERM=xterm-256color
 export FZF_DEFAULT_COMMAND='fd --type f'
@@ -113,4 +115,5 @@ export FZF_DEFAULT_COMMAND='fd --type f'
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias ws="cd ~/ws"
 alias fdf="fd | fzf"
+. $HOME/z/z.sh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
