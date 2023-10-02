@@ -6,113 +6,93 @@
 "
 "
 set nocompatible              " be iMproved, required
-filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" " alternatively, pass a path where Vundle should install plugins
-" "call vundle#begin('~/some/path/here')
-"
-" " let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'scrooloose/nerdtree'
-"Plugin 'scrooloose/syntastic'
-Plugin 'scrooloose/nerdcommenter'
-"Plugin 'kien/ctrlp.vim'
-Plugin 'autoload_cscope.vim'
-"Plugin 'majutsushi/tagbar'
-Plugin 'DoxygenToolkit.vim'
-"Plugin 'c.vim'
-"Plugin 'mbriggs/mark.vim'
-"Plugin 'ShowMarks'
-"Plugin 'Conque-GDB'
-Plugin 'kshenoy/vim-signature'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'tpope/vim-commentary'
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'aklt/plantuml-syntax'
-"Plugin 'ShowTrailingWhitespace'
-Plugin 'junegunn/fzf'
-Plugin 'junegunn/fzf.vim'
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" Install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
+
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | source $MYVIMRC
+\| endif
+
+
+
+call plug#begin('~/.vim/plugged')
+Plug 'scrooloose/nerdtree'
+"Plug 'scrooloose/syntastic'
+Plug 'scrooloose/nerdcommenter'
+"Plug 'kien/ctrlp.vim'
+"Plug 'majutsushi/tagbar'
+"Plug 'c.vim'
+"Plug 'mbriggs/mark.vim'
+"Plug 'ShowMarks'
+"Plug 'Conque-GDB'
+Plug 'kshenoy/vim-signature'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-commentary'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'aklt/plantuml-syntax'
+"Plug 'ShowTrailingWhitespace'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 
 "Usage can refer to http://zuyunfei.com/2013/04/17/killer-plugin-of-vim-surround/"
-Plugin 'tpope/vim-surround'
+Plug 'tpope/vim-surround'
 
 "Expended the '.' operation
-Plugin 'tpope/vim-repeat'
+Plug 'tpope/vim-repeat'
 
-Plugin 'raimondi/delimitmate'
+Plug 'raimondi/delimitmate'
 
-Plugin 'tpope/vim-markdown'
-Plugin 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-markdown'
+Plug 'terryma/vim-multiple-cursors'
 
-Plugin 'chiel92/vim-autoformat'
+Plug 'chiel92/vim-autoformat'
 
-"Plugin 'thinca/vim-quickrun'
+"Plug 'thinca/vim-quickrun'
 
 "Switch between file *.c <-> *.h or file under curser, have limitation
-"Plugin 'a.vim'
+"Plug 'a.vim'
 
-Plugin 'octol/vim-cpp-enhanced-highlight'
+Plug 'octol/vim-cpp-enhanced-highlight'
 
-Plugin 'easymotion/vim-easymotion'
-Plugin 'Valloric/YouCompleteMe'
-"Plugin 'sirver/ultisnips'
-Plugin 'honza/vim-snippets'
+Plug 'easymotion/vim-easymotion'
+Plug 'Valloric/YouCompleteMe', {'do': './install.py'}
+"Plug 'sirver/ultisnips'
+Plug 'honza/vim-snippets'
 
-Plugin 'klen/python-mode'
+Plug 'klen/python-mode'
 
 " highlight CSS3
-Plugin 'hail2u/vim-css3-syntax'
-"Plugin 'rstacruz/vim-ultisnips-css'
+Plug 'hail2u/vim-css3-syntax'
+"Plug 'rstacruz/vim-ultisnips-css'
 
 " highlight HTML5
-Plugin 'othree/html5.vim'
+Plug 'othree/html5.vim'
 
 " Improved javaScript indentation and syntax support in Vim
-Plugin 'pangloss/vim-javascript'
+Plug 'pangloss/vim-javascript'
 " lean & mean status/tabline for vim that's light as air
-Plugin 'bling/vim-airline'
-Plugin 'vim-airline/vim-airline-themes' "https://github.com/vim-airline/vim-airline/wiki/Screenshots Usage: ':Airline distinguished ':Airline dark'
+Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes' "https://github.com/vim-airline/vim-airline/wiki/Screenshots Usage: ':Airline distinguished ':Airline dark'
 
 "Plugin 'Valloric/YouCompleteMe'
 " " The following are examples of different formats supported.
 " " Keep Plugin commands between vundle#begin/end.
 " " plugin on GitHub repo
-Plugin 'tpope/vim-fugitive'
-" " plugin from http://vim-scripts.org/vim/scripts.html
-" Plugin 'L9'
-" " Git plugin not hosted on GitHub
-" Plugin 'git://git.wincent.com/command-t.git'
-" " git repos on your local machine (i.e. when working on your own plugin)
-" Plugin 'file:///home/gmarik/path/to/plugin'
-" " The sparkup vim script is in a subdirectory of this repo called vim.
-" " Pass the path to set the runtimepath properly.
-" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" " Avoid a name conflict with L9
-" Plugin 'user/L9', {'name': 'newL9'}
-"
-" " All of your Plugins must be added before the following line
-
-Plugin 'ludovicchabant/vim-gutentags'
-Plugin 'yggdroot/leaderf'
-
-call vundle#end()            " required
-" " To ignore plugin indent changes, instead use:
-"filetype plugin on
-" "
-" " Brief help
-" " :PluginList       - lists configured plugins
-" " :PluginInstall    - installs plugins; append `!` to update or just
-" :PluginUpdate
-" " :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" " :PluginClean      - confirms removal of unused plugins; append `!` to
-" auto-approve removal
-" "
-" " see :h vundle for more details or wiki for FAQ
-" " Put your non-Plugin stuff after this line
-
+Plug 'tpope/vim-fugitive'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'yggdroot/leaderf'
+call plug#end()
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -124,10 +104,6 @@ set history=700
 " Display line num
 set nu
 set ignorecase
-
-" Enable filetype plugins
-filetype plugin on
-filetype indent on
 
 " Set to auto read when a file is changed from the outside
 set autoread
