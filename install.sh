@@ -51,18 +51,18 @@ copy_configure() {
 }
 
 install_zsh_for_ubuntu() {
-    sudo apt-get install zsh wget -y
+    sudo apt-get install zsh wget fd-find -y
     sudo apt-get install autojump -y
     sudo usermod -s /usr/bin/zsh $(whoami)
 }
 
 install_zsh_for_centos() {
-    sudo yum install zsh autojump autojump-zsh wget -y
+    sudo yum install zsh autojump autojump-zsh wget fd-find -y
     sudo usermod -s /usr/bin/zsh $(whoami)
 }
 
 install_zsh_for_macos() {
-    brew install autojump wget
+    brew install autojump wget fd
 }
 
 post_install_zsh()
@@ -101,9 +101,6 @@ install_zsh() {
     fi
     sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     post_install_zsh
-    
-    # TODO
-    # install fd refer to https://github.com/sharkdp/fd
 }
 
 shopt -s extglob
