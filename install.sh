@@ -1,8 +1,16 @@
-#!/bin/bash -ex
-echo "install common tool for development"
+#!/bin/bash
 
-install_prequisite()
-{
+usage() {
+    echo "Usage:"
+    echo "> install separate component, use below install command"
+    echo "  ./install.sh pre|vim|cpconfig|zsh"
+}
+
+this=$(pwd)
+
+CONF_DIR="$this/configs"
+
+install_prequisite() {
     OS=`uname -s`
     if [ ${OS} == "Darwin" ]; then 
         brew install cmake tmux tig wget autojump universal-ctags
@@ -10,7 +18,7 @@ install_prequisite()
         source /etc/os-release
         case $ID in
             debian|ubuntu|devuan)
-                sudo apt-get install tmux tig silversearcher-ag global exuberant-ctags
+                apt-get install tmux tig silversearcher-ag global exuberant-ctags
                 ;;
             centos|fedora|rhel)
                 yumdnf="yum"
@@ -29,63 +37,108 @@ install_prequisite()
     fi
 }
 
-patch_vim()
-{
-    cp ./0001-Add-custom-sh-snippets.patch ~/.vim/bundle/vim-snippets/
-    pushd ~/.vim/bundle/vim-snippets/
-    git am -s < ./0001-Add-custom-sh-snippets.patch
-    popd
-}
-
-install_vim_via_git()
-{
-    if [ -s ~/.vim/bundle/Vundle.vim ]; then
-        echo " vundle existed"
-    else
-        echo "Clone vundle"
-        git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-    fi
-    cp vimrc ~/.vimrc
+install_vim() {
+    cp ${CONF_DIR}/vimrc ~/.vimrc
     vim -c "PluginInstall" -c "q" -c "q"
-    patch_vim
 }
 
-install_vim_via_tar()
+copy_configure() {
+    echo "copy configure"
+    cp -rf ${CONF_DIR}/gitconfig ~/.gitconfig
+    cp -rf ${CONF_DIR}/tmux.conf ~/.tmux.conf
+    cp -rf ${CONF_DIR}/tigrc.vim ~/.tigrc.vim
+    cp -rf ${CONF_DIR}/tigrc ~/.tigrc
+}
+
+install_zsh_for_ubuntu() {
+    sudo apt-get install zsh wget -y
+    sudo apt-get install autojump -y
+    sudo usermod -s /usr/bin/zsh $(whoami)
+}
+
+install_zsh_for_centos() {
+    sudo yum install zsh autojump autojump-zsh wget -y
+    sudo usermod -s /usr/bin/zsh $(whoami)
+}
+
+install_zsh_for_macos() {
+    brew install autojump wget
+}
+
+post_install_zsh()
 {
-    tar -xvzf vim.tar.gz
-    cp vim ~/.vim -r
-    cp vimrc ~/.vimrc
-    rm vim -rf
-    patch_vim
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+    git clone https://github.com/rupa/z.git $HOME/z
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install
+
+    mv ~/.zshrc ~/.zshrc_bak
+    cp ${CONF_DIR}/zshrc ~/.zshrc
+    sed "5 iexport ZSH="$HOME/.oh-my-zsh"" -i ~/.zshrc
 }
 
-copy_configure()
-{
-    mkdir -p ~/.ssh
-    cp -rf ./media_key ~/.ssh/
-    cp -rf ./media_key.pub ~/.ssh/
-    cp -rf ./authorized_keys ~/.ssh/
-    cp -rf ./gitconfig ~/.gitconfig
-    cp -rf ./tmux.conf ~/.tmux.conf
-    cp -rf ./sshconfig ~/.ssh/config
-    cp -rf ./wgetrc ~/.wgetrc
-    cp -rf ./tigrc.vim ~/.tigrc.vim
-    cp -rf ./tigrc ~/.tigrc
-
-    sudo chmod 0400 ~/.ssh/media_key
-    sudo chmod 600 ~/.ssh/authorized_keys
-    sudo chmod 600 ~/.ssh/config
-    sudo chmod 700 ~/.ssh
-    mkdir -p ~/.pip
-    cp -rf ./pip.conf ~/.pip/
-    sudo mkdir /root/.pip -p
-    sudo cp -rf ./pip.conf ~/.pip/
-    cat ./bashrc >> ~/.bashrc
-    source ~/.bashrc
+install_zsh() {
+    OS=`uname -s`
+    if [ ${OS} == "Darwin" ]; then
+        install_zsh_for_macos
+    elif [ ${OS} == "Linux" ]; then
+        source /etc/os-release
+        case $ID in
+            debian|ubuntu|devuan)
+                install_zsh_for_ubuntu
+                ;;
+            centos|fedora|rhel)
+                install_zsh_for_centos
+                ;;
+            *)
+                exit 1
+                ;;
+        esac
+    else
+        echo "Other OS: ${OS}"
+    fi
+    sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    post_install_zsh
+    
+    # TODO
+    # install fd refer to https://github.com/sharkdp/fd
 }
 
+shopt -s extglob
+if [[ $# -gt 0 ]]; then
+    case $1 in
+        usage )
+            exit 0
+            ;;
+        pre )
+            shift
+            install_prequisite $@
+            exit 0
+            ;;
+        vim )
+            shift
+            install_vim $@
+            exit 0
+            ;;
+        cpconfig )
+            shift
+            copy_configure $@
+            exit 0
+            ;;
+        zsh )
+            shift
+            install_zsh $@
+            exit 0
+            ;;
+        * )
+            echo 'error: wrong input parameter!'
+            usage
+            exit 1
+            ;;
+    esac
+else
+    usage
+fi
 
-install_prequisite
-#install_vim_via_tar
-install_vim_via_git
-copy_configure
